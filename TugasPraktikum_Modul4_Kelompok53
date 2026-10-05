@@ -1,0 +1,91 @@
+# PROGRAM ABSEN MAHASISWA KELOMPOK 53 
+
+# ---------- FUNCTION ---------- 
+
+def garis(n):                      # non-return, berparameter 
+    print("=" * n) 
+
+def menu():                        # non-return, tanpa parameter 
+    garis(25) 
+    print("1. Lihat daftar absen\n2. Absen mahasiswa kelompok 53\n3. Cari mahasiswa kelompok 53\n0. Keluar") 
+    garis(25)
+
+def minta_pilihan():               # return, tanpa parameter 
+    while True: 
+        p = input("Pilih: ") 
+        if p.isdigit() and int(p) <= 3: 
+            return int(p) 
+        print("Tidak valid!") 
+
+  
+def nama_valid(nama):              # return, berparameter 
+    return len(nama.strip()) > 0 
+
+  
+
+# ---------- CLASS & METHOD ---------- 
+
+class Mahasiswa: 
+    def __init__(self, nama, nim): 
+        self.nama = nama 
+        self.nim = nim 
+        self.hadir = False 
+
+  
+
+    def status(self):              # method return, tanpa parameter 
+
+        return "Hadir" if self.hadir else "Belum hadir" 
+
+    def cocok(self, kata):         # method return, berparameter 
+        return kata.lower() in self.nama.lower() or kata in self.nim 
+    
+    def absen(self):               # method non-return, tanpa parameter 
+        if self.hadir: 
+            print(f"{self.nama} sudah absen.") 
+        else: 
+            self.hadir = True 
+            print(f"{self.nama} berhasil absen.") 
+
+    def info(self, no):            # method non-return, berparameter 
+        print(f"{no}. {self.nama} ({self.nim}) - {self.status()}") 
+
+  
+
+# ---------- PROGRAM UTAMA ---------- 
+
+daftar = [ 
+    Mahasiswa("Hafidz Maulana Yusuf", "21120126130056"), 
+    Mahasiswa("Muhhamad Syahrir Sidiq", "21120126140197"), 
+    Mahasiswa("Rahma Aulia", "21120126120006"), 
+    Mahasiswa("Marcellinus Arya Dharma Cetta", "21120126130047"), 
+
+] 
+
+  
+while True: 
+    menu() 
+    pilih = minta_pilihan() 
+    if pilih == 1: 
+        for i, m in enumerate(daftar, 1): 
+            m.info(i) 
+    elif pilih == 2: 
+        for i, m in enumerate(daftar, 1): 
+            m.info(i) 
+        no = input("Nomor mahasiswa: ") 
+        if no.isdigit() and 1 <= int(no) <= len(daftar): 
+            daftar[int(no) - 1].absen() 
+        else: 
+            print("Nomor tidak ada.") 
+    elif pilih == 3: 
+        kata = input("Nama / NIM dicari: ") 
+        if nama_valid(kata): 
+            for i, m in enumerate(daftar, 1):
+                if m.cocok(kata): 
+                    m.info(i) 
+        else: 
+            print("Nama kosong!") 
+    else: 
+        print("Sampai jumpa!") 
+        break 
+    print() 
